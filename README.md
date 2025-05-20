@@ -28,7 +28,7 @@ A backend system for an e-commerce website that sells mobile phones online. Buil
 ---
 
 ## 📂 Project Structure
-ecommerce/
-├── backend.py # Main FastAPI app with all endpoints
-├── README.md # Project documentation
-├── API.md #  API documentation with endpoints and sample JSON responses
+ecommerce/<br>
+├── backend.py # Main FastAPI app with all endpoints<br>
+├── README.md # Project documentation<br>
+├── API.md #  API documentation with endpoints and sample JSON responses<br>
