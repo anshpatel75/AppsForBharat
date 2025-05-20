@@ -24,9 +24,11 @@ A backend system for an e-commerce website that sells mobile phones online. Buil
 - **Framework:** FastAPI
 - **Data Storage:** In-memory dictionaries (simulates DB)
 - **Dependencies:** Uvicorn, Pydantic
-- **API Docs:** Swagger (auto-generated at `/docs`)
 
 ---
 
 ## 📂 Project Structure
-
+ecommerce/
+├── backend.py # Main FastAPI app with all endpoints
+├── README.md # Project documentation
+├── API.md #  API documentation with endpoints and sample JSON responses
