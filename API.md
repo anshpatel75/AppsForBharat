@@ -135,8 +135,52 @@ Returns detail of a specific product.
   "detail": "Product not found"
 }
 ```
-
 ---
+#### 🆕 PUT `/products/{product_id}`
+Update a product's details.
+
+```json
+{
+  "product_id": "p001",
+  "name": "iPhone 15 Pro",
+  "description": "Updated Apple flagship",
+  "price": 1399.99,
+  "inventory": 8
+}
+```
+
+**Success
+```json
+{
+  "message": "Product updated successfully"
+}
+```
+
+**failure
+```json
+{
+  "detail": "Product not found"
+}
+```
+---
+#### DELETE /products/{product_id}
+Delete a product from the catalog.
+
+**Success
+```json
+{
+  "message": "Product deleted successfully"
+}
+```
+
+**Failure
+```json
+{
+  "detail": "Product not found"
+}
+```
+
+
 
 ### 🛒 Cart APIs
 

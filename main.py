@@ -87,6 +87,22 @@ def get_product(product_id: str):
         raise HTTPException(status_code=404, detail="Product not found")
     return products[product_id]
 
+
+@app.put("/products/{product_id}")
+def update_product(product_id: str, updated_product: Product):
+    if product_id not in products:
+        raise HTTPException(status_code=404, detail="Product not found")
+    products[product_id] = updated_product
+    return {"message": "Product updated successfully"}
+
+@app.delete("/products/{product_id}")
+def delete_product(product_id: str):
+    if product_id not in products:
+        raise HTTPException(status_code=404, detail="Product not found")
+    del products[product_id]
+    return {"message": "Product deleted successfully"}
+
+
 # Cart APIs
 @app.post("/cart/add")
 def add_to_cart(user_id: str, item: CartItem):
