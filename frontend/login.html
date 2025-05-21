@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="login-form">
+    <h2>Login</h2>
+    <input type="text" id="userId" placeholder="User ID" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="loginSubmit">Login</button>
+  </main>
+  <script type="module">
+    import { login } from './js/api.js';
+    import { saveUser } from './js/auth.js';
+    document.getElementById('loginSubmit').addEventListener('click', async () => {
+      const user_id = document.getElementById('userId').value;
+      const password = document.getElementById('password').value;
+      try {
+        await login(user_id, password);
+        saveUser(user_id);
+        alert("Login successful");
+        window.location.href = 'admin.html';
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  </script>
+</body>
+</html>

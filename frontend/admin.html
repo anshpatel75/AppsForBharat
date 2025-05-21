@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Admin Panel</h1>
+    <button id="logoutBtn">Logout</button>
+  </header>
+  <main class="admin-panel">
+    <section>
+      <h2>Add Product</h2>
+      <input type="text" id="productId" placeholder="Product ID" />
+      <input type="text" id="productName" placeholder="Name" />
+      <input type="text" id="productDesc" placeholder="Description" />
+      <input type="number" id="productPrice" placeholder="Price" />
+      <input type="number" id="productInventory" placeholder="Inventory" />
+      <button id="addProductBtn">Add Product</button>
+    </section>
+    <section>
+      <h2>Product List</h2>
+      <div id="adminProductList"></div>
+    </section>
+  </main>
+  <script type="module">
+    import { getUser, logout } from './js/auth.js';
+    import { fetchProducts, addProduct } from './js/api.js';
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      logout();
+      window.location.href = 'index.html';
+    });
+    async function renderProductList() {
+      const container = document.getElementById('adminProductList');
+      container.innerHTML = '';
+      const products = await fetchProducts();
+      products.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'product-card';
+        div.innerHTML = `
+          <h3>${p.name}</h3>
+          <p>${p.description}</p>
+          <p>$${p.price}</p>
+          <p>Inventory: ${p.inventory}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+    document.getElementById('addProductBtn').addEventListener('click', async () => {
+      const data = {
+        product_id: document.getElementById('productId').value,
+        name: document.getElementById('productName').value,
+        description: document.getElementById('productDesc').value,
+        price: parseFloat(document.getElementById('productPrice').value),
+        inventory: parseInt(document.getElementById('productInventory').value)
+      };
+      await addProduct(data);
+      alert("Product added!");
+      renderProductList();
+    });
+    renderProductList();
+  </script>
+</body>
+</html>
