@@ -50,6 +50,11 @@ class Order(BaseModel):
 def get_cart(user_id: str):
     return carts.setdefault(user_id, [])
 
+#root
+@app.get("/")
+def root():
+    return {"message": "Hello FastAPI"}
+
 # Auth
 @app.post("/register")
 def register(user: User):
@@ -86,6 +91,10 @@ def get_product(product_id: str):
 @app.post("/cart/add")
 def add_to_cart(user_id: str, item: CartItem):
     cart = get_cart(user_id)
+    for cart_item in cart:
+        if cart_item.product_id == item.product_id:
+            cart_item.quantity += item.quantity
+            return {"message": "Quantity updated in cart"}
     cart.append(item)
     return {"message": "Item added to cart"}
 
