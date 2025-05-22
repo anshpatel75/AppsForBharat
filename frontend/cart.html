@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart | Mobile Store</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header__container">
+      <h1 class="header__logo">Your Cart</h1>
+      <button onclick="window.location.href='index.html'" class="header__login-btn">Back to Shop</button>
+    </div>
+  </header>
+
+  <main class="main cart">
+    <h2 class="cart__title">Items in Cart</h2>
+    <div id="cartList" class="products__grid"></div>
+    <div class="cart__summary">
+      <p><strong>Total:</strong> $<span id="cartTotal">0</span></p>
+      <button id="placeOrderBtn" class="admin__button">Place Order</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__text">© 2025 Mobile Store. All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="js/cart.js"></script>
+</body>
+</html>

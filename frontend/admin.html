@@ -1,66 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Admin Panel</title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-  <header class="header">
-    <h1>Admin Panel</h1>
-    <button id="logoutBtn">Logout</button>
-  </header>
-  <main class="admin-panel">
-    <section>
-      <h2>Add Product</h2>
-      <input type="text" id="productId" placeholder="Product ID" />
-      <input type="text" id="productName" placeholder="Name" />
-      <input type="text" id="productDesc" placeholder="Description" />
-      <input type="number" id="productPrice" placeholder="Price" />
-      <input type="number" id="productInventory" placeholder="Inventory" />
-      <button id="addProductBtn">Add Product</button>
-    </section>
-    <section>
-      <h2>Product List</h2>
-      <div id="adminProductList"></div>
-    </section>
-  </main>
-  <script type="module">
-    import { getUser, logout } from './js/auth.js';
-    import { fetchProducts, addProduct } from './js/api.js';
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      logout();
-      window.location.href = 'index.html';
-    });
-    async function renderProductList() {
-      const container = document.getElementById('adminProductList');
-      container.innerHTML = '';
-      const products = await fetchProducts();
-      products.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'product-card';
-        div.innerHTML = `
-          <h3>${p.name}</h3>
-          <p>${p.description}</p>
-          <p>$${p.price}</p>
-          <p>Inventory: ${p.inventory}</p>
-        `;
-        container.appendChild(div);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Mobile Store</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__container">
+        <h1 class="header__logo">Admin Panel</h1>
+        <button id="logoutBtn" class="header__login-btn">Logout</button>
+      </div>
+    </header>
+
+    <main class="main admin">
+      <section class="admin__section admin__form-section">
+        <h2 class="admin__title">Add / Update Product</h2>
+        <form class="admin__form">
+          <input
+            type="text"
+            id="productId"
+            class="admin__input"
+            placeholder="Product ID"
+          />
+          <input
+            type="text"
+            id="productName"
+            class="admin__input"
+            placeholder="Name"
+          />
+          <input
+            type="text"
+            id="productDesc"
+            class="admin__input"
+            placeholder="Description"
+          />
+          <input
+            type="number"
+            id="productPrice"
+            class="admin__input"
+            placeholder="Price"
+          />
+          <input
+            type="number"
+            id="productInventory"
+            class="admin__input"
+            placeholder="Inventory"
+          />
+          <input
+            type="text"
+            id="productImage"
+            class="admin__input"
+            placeholder="Image URL (optional)"
+          />
+          <button type="button" id="addProductBtn" class="admin__button">
+            Save Product
+          </button>
+        </form>
+      </section>
+
+      <section class="admin__section">
+        <h2 class="admin__title">Product List</h2>
+        <div id="adminProductList" class="products__grid"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__text">© 2025 Mobile Store. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+      import { getUser, isAdmin, logout } from "./js/auth.js";
+      import {
+        fetchProducts,
+        addProduct as saveProduct,
+        deleteProduct,
+        updateProduct,
+      } from "./js/api.js";
+
+      function clearForm() {
+        document.getElementById("productId").value = "";
+        document.getElementById("productName").value = "";
+        document.getElementById("productDesc").value = "";
+        document.getElementById("productPrice").value = "";
+        document.getElementById("productInventory").value = "";
+        document.getElementById("productImage").value = "";
+      }
+
+      if (!getUser() || !isAdmin()) {
+        alert("Admin access only.");
+        window.location.href = "index.html";
+      }
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        logout();
+        window.location.href = "index.html";
       });
-    }
-    document.getElementById('addProductBtn').addEventListener('click', async () => {
-      const data = {
-        product_id: document.getElementById('productId').value,
-        name: document.getElementById('productName').value,
-        description: document.getElementById('productDesc').value,
-        price: parseFloat(document.getElementById('productPrice').value),
-        inventory: parseInt(document.getElementById('productInventory').value)
-      };
-      await addProduct(data);
-      alert("Product added!");
+
+      document
+        .getElementById("addProductBtn")
+        .addEventListener("click", async () => {
+          const product = {
+            product_id: document.getElementById("productId").value.trim(),
+            name: document.getElementById("productName").value.trim(),
+            description: document.getElementById("productDesc").value.trim(),
+            price: parseFloat(document.getElementById("productPrice").value),
+            inventory: parseInt(
+              document.getElementById("productInventory").value
+            ),
+            image: document.getElementById("productImage").value.trim(),
+          };
+
+          if (
+            !product.product_id ||
+            !product.name ||
+            !product.description ||
+            isNaN(product.price) ||
+            isNaN(product.inventory)
+          ) {
+            return alert("Please fill all fields correctly.");
+          }
+
+          try {
+            const exists = await fetch(
+              `http://localhost:8000/products/${product.product_id}`
+            );
+            if (exists.ok) {
+              await updateProduct(product);
+              alert("Product updated successfully!");
+            } else {
+              await addProduct(product);
+              alert("Product added successfully!");
+            }
+
+            clearForm();
+            renderProductList();
+          } catch (err) {
+            alert("Error: " + err.message);
+          }
+        });
+
+      async function renderProductList() {
+        const container = document.getElementById("adminProductList");
+        container.innerHTML = "";
+        const products = await fetchProducts();
+        products.forEach((p) => {
+          const div = document.createElement("div");
+          div.className = "product-card";
+          div.innerHTML = `
+          <img src="${p.image || "https://via.placeholder.com/250"}" alt="${
+            p.name
+          }" class="product-card__image" />
+          <h3 class="product-card__title">${p.name}</h3>
+          <p class="product-card__description">${p.description}</p>
+          <p class="product-card__price">$${p.price}</p>
+          <p><strong>Stock:</strong> ${p.inventory}</p>
+          <div class="admin__actions">
+            <button class="admin__edit" data-id="${p.product_id}">Edit</button>
+            <button class="admin__delete" data-id="${
+              p.product_id
+            }">Delete</button>
+          </div>
+        `;
+          container.appendChild(div);
+        });
+
+        document.querySelectorAll(".admin__edit").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const id = e.target.dataset.id;
+            const product = products.find((p) => p.product_id === id);
+            if (product) {
+              document.getElementById("productId").value = product.product_id;
+              document.getElementById("productName").value = product.name;
+              document.getElementById("productDesc").value =
+                product.description;
+              document.getElementById("productPrice").value = product.price;
+              document.getElementById("productInventory").value =
+                product.inventory;
+              document.getElementById("productImage").value =
+                product.image || "";
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          });
+        });
+
+        document.querySelectorAll(".admin__delete").forEach((btn) => {
+          btn.addEventListener("click", async (e) => {
+            const id = e.target.dataset.id;
+            if (confirm("Are you sure you want to delete this product?")) {
+              await deleteProduct(id);
+              renderProductList();
+            }
+          });
+        });
+      }
+
       renderProductList();
-    });
-    renderProductList();
-  </script>
-</body>
+    </script>
+  </body>
 </html>
