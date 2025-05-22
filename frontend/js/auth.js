@@ -14,5 +14,5 @@ export function getUser() {
 export function logout() {
   localStorage.removeItem('user_id');
   localStorage.removeItem('is_admin');
-  window.location.href = 'index.html';
+  window.location.href = 'login.html';
 }
