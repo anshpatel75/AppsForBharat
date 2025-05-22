@@ -198,11 +198,79 @@ html, body {
 }
 
 
+/* --------------------------
+   Admin Panel Styling
+---------------------------- */
+
+/*.admin__section {
+  margin-bottom: 2.5rem;
+}
+
+.admin__title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #1e88e5;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.admin__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.admin__input {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fafafa;
+}
+
+.admin__input:focus {
+  border-color: #1e88e5;
+  outline: none;
+  background-color: #fff;
+}
+
+.admin__button {
+  grid-column: span 2;
+  padding: 0.75rem;
+  background-color: #1e88e5;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin__button:hover {
+  background-color: #1565c0;
+}
+
+/* Ensure cards are consistent with product list */
+.product-card__image {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+}
+
+/*
+
 .admin__actions {
-  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
-  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .admin__edit,
@@ -215,15 +283,16 @@ html, body {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-right: 0.5rem;
 }
 
 .admin__edit {
-  background-color: #ffca28;
+  background-color: #ffd54f;
   color: #333;
 }
 
 .admin__edit:hover {
-  background-color: #fbc02d;
+  background-color: #ffca28;
 }
 
 .admin__delete {
@@ -234,6 +303,67 @@ html, body {
 .admin__delete:hover {
   background-color: #e53935;
 }
+*/
+
+/* --------------------------
+   Admin Panel Layout Refinement
+---------------------------- */
+
+.admin__form-wrapper {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.admin__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.admin__button {
+  grid-column: 1 / -1;
+  padding: 0.75rem;
+  background-color: #1e88e5;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin__list-wrapper {
+  margin-top: 2rem;
+}
+
+.products__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 👈 force 4 columns */
+  gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .products__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .products__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 .orders__grid {
@@ -268,3 +398,13 @@ html, body {
   margin: 0 auto;
   padding: 2rem 1rem;
 }
+
+
+body.admin-body {
+  background-image: url('../assets/background_img.jpeg'); /* or a full URL */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+

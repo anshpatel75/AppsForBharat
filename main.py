@@ -18,7 +18,8 @@ app.add_middleware(
 # In-memory users with roles
 users = {
     "admin123": {"password": "adminpass", "is_admin": True},
-    "user123": {"password": "userpass", "is_admin": False}
+    "user123": {"password": "userpass", "is_admin": False},
+    "user124": {"password": "userpass1", "is_admin": False}
 }
 
 products = {}

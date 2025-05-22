@@ -2,17 +2,21 @@ import { getUser, isAdmin, logout } from './auth.js';
 import { fetchProducts } from './api.js';
 import { renderProducts } from './ui.js';
 
-
 document.addEventListener('DOMContentLoaded', async () => {
   const authBtn = document.getElementById('authBtn');
-  if (!authBtn) return;  // safety check
+  const cartBtn = document.getElementById('cartBtn');
 
   if (getUser()) {
     authBtn.textContent = 'Logout';
-    authBtn.addEventListener('click', () => {
-      logout();
-      window.location.reload();
-    });
+    authBtn.addEventListener('click', logout);
+
+    // Show cart button only for non-admins
+    if (!isAdmin()) {
+      cartBtn.style.display = 'inline-block';
+      cartBtn.addEventListener('click', () => {
+        window.location.href = 'cart.html';
+      });
+    }
   } else {
     authBtn.textContent = 'Login';
     authBtn.addEventListener('click', () => {
@@ -27,6 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     alert(err.message);
   }
 });
+
 
 
 
