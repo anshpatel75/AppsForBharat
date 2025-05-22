@@ -15,7 +15,12 @@ app.add_middleware(
 )
 
 # In-memory storage
-users = {}
+# In-memory users with roles
+users = {
+    "admin123": {"password": "adminpass", "is_admin": True},
+    "user123": {"password": "userpass", "is_admin": False}
+}
+
 products = {}
 carts = {}
 orders = {}
@@ -24,6 +29,7 @@ orders = {}
 class User(BaseModel):
     user_id: str = Field(...)
     password: str
+    is_admin: bool = False
 
 class Product(BaseModel):
     product_id: str
@@ -60,14 +66,18 @@ def root():
 def register(user: User):
     if user.user_id in users:
         raise HTTPException(status_code=400, detail="User already exists")
-    users[user.user_id] = user.password
+    users[user.user_id] = {"password": user.password, "is_admin": user.is_admin}
     return {"message": "User registered successfully"}
 
 @app.post("/login")
 def login(user: User):
-    if users.get(user.user_id) != user.password:
+    stored = users.get(user.user_id)
+    if not stored or stored["password"] != user.password:
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"message": "Login successful"}
+    return {
+        "message": "Login successful",
+        "is_admin": stored["is_admin"]
+    }
 
 # Product APIs
 @app.post("/products")
