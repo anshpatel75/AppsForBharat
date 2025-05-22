@@ -162,3 +162,42 @@ frontend/
 
 
 
+#### Admin/User Test Credentials
+These users are pre-registered in the backend:<br>
+| Role  | Username   | Password    |
+| ----- | ---------- | ----------- |
+| Admin | `admin123` | `adminpass` |
+| User  | `user123`  | `userpass`  |
+
+
+#### 🧩 Integration
+This frontend is built to work with the following FastAPI endpoints:
+
+Endpoint	            Method	       Description
+
+/register	            POST	       Register user
+/login	                POST	       Authenticate user
+/products	            GET	           List all products
+/products	            POST	       Add new product
+/products/{id}	        PUT	           Update product
+/products/{id}	        DELETE	       Delete product
+/cart/add	            POST	       Add item to user cart
+/orders/create	        POST	       Place order from cart
+/orders/history	        GET	           View user’s past orders
+
+### 🧪 Testing
+Open index.html directly in a browser
+    - No build tools required (pure HTML/CSS/JS)
+    - Test full flow: login → cart → order → admin panel (if admin)
+
+## 📎 Dependencies
+No frameworks or libraries are used. Pure:
+    - HTML5
+    - CSS3 (BEM methodology)
+    - Vanilla JavaScript (ES6 modules)
+
+## 🙌 Credits
+    - Developed by Ansh Patel
+    - Designed for integration with FastAPI backend assignment project.
+
+
