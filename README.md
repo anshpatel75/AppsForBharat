@@ -92,5 +92,73 @@ Order<br>
 
 
 
+## Frontend Work
+
+📱 Mobile Store – Frontend (HTML + CSS + JS)<br>
+This is a frontend application for a simple e-commerce mobile store built using HTML, CSS, and Vanilla JavaScript, designed to work seamlessly with a FastAPI backend.
+
+#### 🚀 Features
+🛍️ Product listing page (index.html)<br>
+
+🔐 User login with admin detection<br>
+
+⚙️ Admin panel to add/edit/delete products<br>
+
+🛒 Cart with localStorage support<br>
+
+✅ Place order and view order history<br>
+
+🔁 Login/logout toggle, auto session detection<br>
+
+📦 Fully responsive, BEM-based CSS styling<br>
+
+
+## Folder Structure 
+
+frontend/
+├── index.html          # Product catalog (public)
+├── login.html          # Login page
+├── admin.html          # Admin panel for product CRUD
+├── cart.html           # Cart management page
+├── orders.html         # Order history page
+├── css/
+│   └── styles.css      # Shared BEM-style CSS
+├── js/
+│   ├── api.js          # API functions for products/orders
+│   ├── auth.js         # Login, logout, session utilities
+│   ├── ui.js           # Render product grid
+│   ├── events.js       # Main logic for index.html
+│   ├── cart.js         # Logic for cart operations
+│   └── order.js        # Logic for order history
+
+
+## ⚙️ How It Works
+
+## 🔐 Authentication
+    - Users log in via login.html
+    - Session (user_id and is_admin) is stored in localStorage
+    - Admins are redirected to admin.html; others to index.html
+
+## 🛍️ Product Catalog (index.html)
+    - Loads all products using /products
+    - Users can add items to cart using Add to Cart button
+    - Header button shows Login or Logout dynamically
+
+## 🧑‍💼 Admin Panel (admin.html)
+    - Only accessible to admins
+    - Admins can:
+        - Add new product (POST /products)
+        - Edit product (PUT /products/{id})
+        - Delete product (DELETE /products/{id})
+
+## 🛒 Cart (cart.html)
+    - Uses localStorage to maintain cart items
+    - Items are synced with backend using /cart/add
+    - Order is placed using /orders/create
+
+## 📦 Orders (orders.html)
+    - Loads order history using /orders/history
+    - Shows all past orders with items and status
+
 
 
