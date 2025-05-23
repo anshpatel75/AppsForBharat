@@ -3,6 +3,11 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from uuid import uuid4
 from fastapi.middleware.cors import CORSMiddleware
+from database import engine
+from models import Base
+
+Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
 
