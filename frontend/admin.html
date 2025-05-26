@@ -100,12 +100,12 @@
             class="admin__input"
             placeholder="Inventory"
           />
-          <!--<input
+          <input
             type="text"
             id="productImage"
             class="admin__input"
             placeholder="Image URL (optional)"
-          />-->
+          />
           <button type="button" id="addProductBtn" class="admin__button">
             Save Product
           </button>
@@ -138,6 +138,7 @@
         document.getElementById("productDesc").value = "";
         document.getElementById("productPrice").value = "";
         document.getElementById("productInventory").value = "";
+        document.getElementById("productImage").value = "";
       }
 
       if (!getUser() || !isAdmin()) {
@@ -161,6 +162,7 @@
             inventory: parseInt(
               document.getElementById("productInventory").value
             ),
+            image: document.getElementById("productImage").value.trim() 
           };
 
           if (
